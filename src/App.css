@@ -11,8 +11,10 @@
 }
 
 #imageTemp {
+  position: absolute;
   top: 1px;
   left: 1px;
+  z-index: -1;
 }
 
 #clearButton {
