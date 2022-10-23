@@ -1,10 +1,7 @@
 import { useEffect, useRef} from 'react';
 import './App.css';
 
-import {
-  checkIntersection,
-  colinearPointWithinSegment
-} from 'line-intersect';
+import {checkIntersection} from 'line-intersect';
 
 
 export function App() {
@@ -69,24 +66,25 @@ export function App() {
         container.appendChild(tempCanvas);
       }
 
-      function intersection () {
+      function intersection() {
         const arr = chunk(coords, 4);
-        
-        if(arr.length < 2) return;
-        else{ arr.forEach(i => {
-          console.log('res:' + i)
-          const res = checkIntersection(...i)
-          if (res.type !== 'none') {
-            context.beginPath();
-            context.fillStyle = '#c82124';
-            context.arc(res.point.x, res.point.y, 4, 0, 2 * Math.PI);
-            context.fill();
-            context.closePath();
-          } 
-        }) 
+        if (arr.length < 2) return;
+        else {
+          arr.forEach((i, indexI) => {
+            arr.forEach((j, indexJ) => {
+              if (indexI === indexJ) return;
+              const res = checkIntersection(...i, ...j);
+              if (res.type !== 'none') {
+                context.beginPath();
+                context.fillStyle = '#c82124';
+                context.arc(res.point.x, res.point.y, 4, 0, 2 * Math.PI);
+                context.fill();
+                context.closePath();
+              }
+            });
+          })
         }
       }
-        
 
       function moveHandler(e) {
         if (typeof fromXY.x !== "undefined") {
